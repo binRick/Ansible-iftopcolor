@@ -9,6 +9,6 @@
   git: repo=https://github.com/srix/iftopcolor dest=/usr/src/iftop update=no
   when: not IFTOP.stat.exists
 - name: Compiling iftopcolor
-  command: chdir=/usr/src/iftopcolor {{item}}
+  command: chdir=/usr/src/iftop {{item}}
   with_items: ['./bootstrap','./configure','make','make install']
   when: not IFTOP.stat.exists
