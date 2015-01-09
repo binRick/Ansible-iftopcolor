@@ -1,0 +1,14 @@
+---
+- name: Installing requirements
+  yum: name={{item}} state=present
+  with_items: ['ncurses','ncurses-devel','libpcap-devel','libpcap','autoconf','gcc','automake']
+- name: Checking iftopcolor
+  stat: path=/usr/local/sbin/iftop
+  register: IFTOP
+- name: Deploying iftopcolor source code
+  git: repo=https://github.com/srix/iftopcolor dest=/usr/src/iftop update=no
+  when: not IFTOP.stat.exists
+- name: Compiling iftopcolor
+  command: chdir=/usr/src/iftopcolor {{item}}
+  with_items: ['./bootstrap','./configure','make','make install']
+  when: not IFTOP.stat.exists
